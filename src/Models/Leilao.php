@@ -4,8 +4,9 @@ namespace TrainingPHPUnit\Models;
 
 class Leilao
 {
-    private string $lances;
-    private array $descricao;
+    private array $lances;
+    
+    private string $descricao;
 
     /**
      * @param string $descricao
