@@ -6,13 +6,21 @@ use TrainingPHPUnit\Models\Leilao;
 
 class Avaliador
 {
-    private float $maiorValor;
+    private float $maiorValor = -INF;
+
+    private float $menorValor = INF;
     
     public function avalia(Leilao $leilao): void
     {
-        $lances = $leilao->getLances();
-        $ultimoLance = $lances[count($lances) - 1];
-        $this->maiorValor = $ultimoLance->getValor();
+        /** @var TrainingPHPUnit\Models\Lance $lance */
+        foreach ($leilao->getLances() as $lance) {
+            if ($lance->getValor() > $this->maiorValor) {
+                $this->maiorValor = $lance->getValor();
+            }
+            if ($lance->getValor() < $this->menorValor) {
+                $this->menorValor = $lance->getValor();
+            }
+        }
     }
 
 	/**
@@ -22,4 +30,13 @@ class Avaliador
     {
 		return $this->maiorValor;
 	}
+
+    /**
+     * @return float
+     */
+    public function getMenorValor(): float
+    {
+        return $this->menorValor;
+    }
+    
 }
