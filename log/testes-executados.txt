@@ -1,4 +1,5 @@
 Leilaotest (TrainingPHPUnit\Tests\Models\Leilaotest)
+ [x] Leilao nao deve receber mais de um lance do meso usuario seguido
  [x] Leilao deve receber lances with data set "2-lances"
  [x] Leilao deve receber lances with data set "1-lances"
 
