@@ -9,6 +9,7 @@ use TrainingPHPUnit\Models\Lance;
 
 use PHPUnit\Framework\TestCase;
 use phpDocumentor\Reflection\Types\Void_;
+use DomainException;
 
 class AvaliadorTest extends TestCase
 {
@@ -64,8 +65,15 @@ class AvaliadorTest extends TestCase
 
     public function testLeilaoVazioNaoPodeSerAvaliado(Type $var = null)
     {
-        $leilao = new Leilao("Fusca Azul");
-        $this->leiloeiro->avalia($leilao);
+        // try {
+            $this->expectException(DomainException::class);
+            $this->expectExceptionMessage("Não é possível avaliar um leilão vazio.");
+            $leilao = new Leilao("Fusca Azul");
+            $this->leiloeiro->avalia($leilao);
+            // static::fail("Excessão deveria ter sido lançada.");
+        // } catch (\DomainException $exception) {
+            // static::assertEquals("Não é possível avaliar um leilão vazio.", $exception->getMessage());
+        // }
     }
 
     public function leilaoEmOrdemCrescente()
