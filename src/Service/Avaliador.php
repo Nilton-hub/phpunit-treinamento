@@ -4,6 +4,7 @@ namespace TrainingPHPUnit\Service;
 
 use TrainingPHPUnit\Models\Leilao;
 use TrainingPHPUnit\Models\Lance;
+use DomainException;
 
 class Avaliador
 {
@@ -15,6 +16,9 @@ class Avaliador
     
     public function avalia(Leilao $leilao): void
     {
+        if (empty($leilao->getLances())) {
+            throw new DomainException("Não é possível avaliar um leilão vazio.");
+        }
         /** @var TrainingPHPUnit\Models\Lance $lance */
         foreach ($leilao->getLances() as $lance) {
             if ($lance->getValor() > $this->maiorValor) {

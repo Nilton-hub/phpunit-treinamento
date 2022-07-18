@@ -14,10 +14,13 @@ class AvaliadorTest extends TestCase
 {
     private $leiloeiro;
 
+    # executado antes da instância da classe
     public static function setUpBeforeClass(): void
     {
 
     }
+    
+    # executado antes da chamada de qualquer método
     protected function setUp(): void
     {
         $this->leiloeiro = new Avaliador();
@@ -57,6 +60,12 @@ class AvaliadorTest extends TestCase
         static::assertEquals(2500, $maiores[0]->getValor());
         static::assertEquals(2000, $maiores[1]->getValor());
         static::assertEquals(1700, $maiores[2]->getValor());
+    }
+
+    public function testLeilaoVazioNaoPodeSerAvaliado(Type $var = null)
+    {
+        $leilao = new Leilao("Fusca Azul");
+        $this->leiloeiro->avalia($leilao);
     }
 
     public function leilaoEmOrdemCrescente()

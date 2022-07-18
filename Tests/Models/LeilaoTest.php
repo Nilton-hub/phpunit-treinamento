@@ -6,6 +6,7 @@ use TrainingPHPUnit\Models\Usuario;
 use TrainingPHPUnit\Models\Leilao;
 use PhpParser\Node\Stmt\Label;
 use TrainingPHPUnit\Models\Lance;
+use PhpParser\Node\Stmt\Use_;
 
 class Leilaotest extends TestCase
 {
@@ -17,6 +18,29 @@ class Leilaotest extends TestCase
         $leilao->recebeLances(new Lance($ana, 1500));
         static::assertCount(1, $leilao->getLances());
         static::assertEquals(1000, $leilao->getLances()[0]->getValor());
+    }
+
+    public function testLeilaoNaoDeveAceotarMaisDe5LancesPorUsuario()
+    {
+        $leilao = new Leilao("Brasília Amarela");
+        $maria = new Usuario('Maria');
+        $joao = new Usuario('João');
+
+        $leilao->recebeLances(new Lance($maria, 1000));
+        $leilao->recebeLances(new Lance($joao, 1500));
+        $leilao->recebeLances(new Lance($maria, 2000));
+        $leilao->recebeLances(new Lance($joao, 2500));
+        $leilao->recebeLances(new Lance($maria, 3000));
+        $leilao->recebeLances(new Lance($joao, 3500));
+        $leilao->recebeLances(new Lance($maria, 4000));
+        $leilao->recebeLances(new Lance($joao, 4500));
+        $leilao->recebeLances(new Lance($maria, 5000));
+        $leilao->recebeLances(new Lance($joao, 5500));
+
+        $leilao->recebeLances(new Lance($maria, 6000));
+
+        static::assertCount(10, $leilao->getLances());
+        static::assertEquals(5500, $leilao->getLances()[array_key_last($leilao->getLances())]->getValor());
     }
 
     /**
